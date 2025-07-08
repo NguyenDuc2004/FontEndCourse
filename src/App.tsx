@@ -1,13 +1,14 @@
 
+import { RouterProvider } from 'react-router-dom'
 import './App.css'
-import AdminLayout from './layout/AdminLayout'
+import router from './router/router'
 
 function App() {
   
 
   return (
     <>
-     <AdminLayout />
+    <RouterProvider router={router} />
     </>
   )
 }

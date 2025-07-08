@@ -1,23 +1,34 @@
 
 import {
+    BarChartOutlined,
     BellOutlined,
     KeyOutlined,
     LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
+    QqOutlined,
+    ShoppingCartOutlined,
+    TeamOutlined,
+
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, Menu, Spin } from 'antd';
 import React, { useState } from 'react';
 import '../styles/MainLayout.scss'; // Import your custom styles
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
 
 const MainLayout = () => {
+    const navigate = useNavigate()
     const [collapsed, setCollapsed] = useState(false);
+
+    const handleLogout = () => {
+        console.log('User logged out');
+        navigate('/login'); 
+    }
 
     const userMenuItems = [
         {
@@ -38,9 +49,11 @@ const MainLayout = () => {
             key: 'logout',
             icon: <LogoutOutlined />,
             label: 'Đăng xuất',
-            //  onClick: handleLogout,
+            onClick: handleLogout,
         },
     ]
+
+
     return (
         <Spin
             spinning={false}
@@ -80,19 +93,38 @@ const MainLayout = () => {
                                 items={[
                                     {
                                         key: '1',
-                                        icon: <UploadOutlined />,
+                                        icon: <BarChartOutlined />,
                                         label: 'Tổng quan',
+                                        onClick: () => navigate(''),
                                     },
                                     {
                                         key: '2',
                                         icon: <UserOutlined />,
                                         label: 'Quản lý người dùng',
+                                        onClick: () => navigate('users'),
+
                                     },
                                     {
                                         key: '3',
+                                        icon: <QqOutlined />,
+                                        label: 'Quản lý học viên'
+                                    },
+                                    {
+                                        key: '4',
                                         icon: <VideoCameraOutlined />,
                                         label: 'Quản lý khóa học',
+                                        onClick: () => navigate('courses'),
                                     },
+                                    {
+                                        key: '5',
+                                        icon: <TeamOutlined />,
+                                        label: 'Quản lý quyền',
+                                    },
+                                    {
+                                        key: '6',
+                                        icon: <ShoppingCartOutlined />,
+                                        label: 'Quản lý đơn hàng',
+                                    }
                                 ]}
                             />
                         </div>
@@ -154,7 +186,7 @@ const MainLayout = () => {
                             minHeight: 280,
                         }}
                     >
-                        Content
+                        <Outlet />
                     </Content>
                 </Layout>
             </Layout>
