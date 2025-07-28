@@ -24,8 +24,6 @@ const Login = () => {
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
-  console.log(isSignUp);
   
   return (
     <div className={`login-page`}>
