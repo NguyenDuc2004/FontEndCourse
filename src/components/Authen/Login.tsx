@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Checkbox, Form, Input, type FormProps } from 'antd';
+import { motion } from "framer-motion";
+// import robotDoctor from "../../assets/images/robot_doctor.svg";
 import {
   FacebookOutlined,
   GooglePlusOutlined,
@@ -24,7 +26,7 @@ const Login = () => {
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  
+
   return (
     <div className={`login-page`}>
       <div className={`container ${isSignUp ? 'right-panel-active' : ''}`}>

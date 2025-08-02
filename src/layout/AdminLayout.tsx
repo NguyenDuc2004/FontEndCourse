@@ -14,21 +14,65 @@ import {
     VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, Menu, Spin } from 'antd';
-import React, { useState } from 'react';
-import '../styles/MainLayout.scss'; // Import your custom styles
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import '../styles/AdminLayout.scss'; // Import your custom styles
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { menu, p, path } from 'framer-motion/client';
+// import { useLoading } from '../contexts/LoadingContext';
 
 const { Header, Sider, Content } = Layout;
 
+type BreadcrumbItem = {
+    label: string;
+    path: string;
+};
+
+const Breadcrumb = ({ items }: { items: BreadcrumbItem[] }) => {
+    const navigate = useNavigate();
+    console.log(items);
+
+    return (
+        <nav className="pl-[8px] h-8 flex items-center" aria-label="breadcrumb-container">
+            <ol className="breadcrumb flex items-center">
+                {items.map((item, index) => (
+                    <li
+                        key={index}
+                        onClick={() => {
+                            navigate(item.path)
+                        }}
+                        className="breadcrumb-item text-blue-600 text-[13px] cursor-pointer hover:underline"
+                    >
+                        {item.label}
+                    </li>
+                ))}
+            </ol>
+        </nav>
+    );
+};
 
 const MainLayout = () => {
     const navigate = useNavigate()
     const [collapsed, setCollapsed] = useState(false);
+    const location = useLocation()
+    const [breadcrumbPath, setBreadcrumbPath] = useState<BreadcrumbItem[]>([]);
 
     const handleLogout = () => {
         console.log('User logged out');
-        navigate('/login'); 
+        navigate('/login');
     }
+
+    useEffect(() => {
+        const pathSegments = location.pathname.split('/').filter(Boolean);
+        const breadcrumbItems: BreadcrumbItem[] = pathSegments.map((segment, index) => {
+            const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
+            const label = segment.charAt(0).toUpperCase() + segment.slice(1) + " >> "
+            return {
+                label,
+                path
+            };
+        });
+        setBreadcrumbPath(breadcrumbItems);
+    }, [location.pathname]);
 
     const userMenuItems = [
         {
@@ -53,6 +97,58 @@ const MainLayout = () => {
         },
     ]
 
+    const sideBarMenuItems = [
+        {
+            key: '1',
+            icon: <BarChartOutlined />,
+            label: 'Tổng quan',
+            path: '',
+            onClick: () => navigate(''),
+        },
+        {
+            key: '2',
+            icon: <UserOutlined />,
+            label: 'Quản lý người dùng',
+            path: '/admin/users',
+            onClick: () => navigate('users'),
+        },
+        {
+            key: '3',
+            icon: <QqOutlined />,
+            path: '/admin/students',
+            onClick: () => navigate('students'),
+            label: 'Quản lý học viên'
+        },
+        {
+            key: '4',
+            icon: <VideoCameraOutlined />,
+            label: 'Quản lý khóa học',
+            path: '/admin/courses',
+            onClick: () => navigate('courses'),
+        },
+        {
+            key: '5',
+            icon: <TeamOutlined />,
+            path: '/admin/roles',
+            onClick: () => navigate('roles'),
+            label: 'Quản lý quyền',
+        },
+        {
+            key: '6',
+            icon: <ShoppingCartOutlined />,
+            path: '/admin/orders',
+            onClick: () => navigate('orders'),
+            label: 'Quản lý đơn hàng',
+        }
+
+    ]
+
+    const breadcrumbItems = breadcrumbPath.map((item) => ({
+        label: item.label,
+        path: item.path,
+        // isNavigate: !item.children?.length && !item.parent,
+    }))
+
 
     return (
         <Spin
@@ -72,9 +168,9 @@ const MainLayout = () => {
                     collapsible
                     collapsed={collapsed}
                     collapsedWidth={50}
-                    className="bg-[#222b40] shadow-lg"
+                    className="bg-[#efcfbe] text-white"
                     width={250}
-                    style={{ height: '100vh', overflow: 'hidden' }}
+                    style={{ height: '100vh', overflow: 'hidden', backgroundColor: 'white' }}
                 >
                     <div
                         style={{
@@ -84,48 +180,17 @@ const MainLayout = () => {
                             flexDirection: 'column',
                         }}
                     >
-                        <div className='TB-title'>Admin</div>
+                        <div className='TB-title'>DH Admin</div>
                         <div className="menu-scroll-wrapper">
                             <Menu
-                                theme="dark"
                                 mode="inline"
                                 defaultSelectedKeys={['1']}
-                                items={[
-                                    {
-                                        key: '1',
-                                        icon: <BarChartOutlined />,
-                                        label: 'Tổng quan',
-                                        onClick: () => navigate(''),
-                                    },
-                                    {
-                                        key: '2',
-                                        icon: <UserOutlined />,
-                                        label: 'Quản lý người dùng',
-                                        onClick: () => navigate('users'),
-
-                                    },
-                                    {
-                                        key: '3',
-                                        icon: <QqOutlined />,
-                                        label: 'Quản lý học viên'
-                                    },
-                                    {
-                                        key: '4',
-                                        icon: <VideoCameraOutlined />,
-                                        label: 'Quản lý khóa học',
-                                        onClick: () => navigate('courses'),
-                                    },
-                                    {
-                                        key: '5',
-                                        icon: <TeamOutlined />,
-                                        label: 'Quản lý quyền',
-                                    },
-                                    {
-                                        key: '6',
-                                        icon: <ShoppingCartOutlined />,
-                                        label: 'Quản lý đơn hàng',
-                                    }
-                                ]}
+                                style={{
+                                    fontWeight: 'bold',
+                                    paddingTop: '5px',
+                                    fontSize: '13px',
+                                }}
+                                items={sideBarMenuItems}
                             />
                         </div>
                     </div>
@@ -136,7 +201,7 @@ const MainLayout = () => {
                         className="header-container"
                         style={{
                             padding: '0 16px',
-                            background: '#fff',
+                            background: 'pink',
                             borderBottom: '1px solid #f0f0f0',
                             height: '64px',
                             lineHeight: '64px',
@@ -145,10 +210,15 @@ const MainLayout = () => {
                             zIndex: 1000,
                         }}>
                         <div className="flex items-center justify-between w-full">
-                            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                                className: 'trigger',
-                                onClick: () => setCollapsed(!collapsed),
-                            })}
+                            <div className='flex items-center gap-2'>
+                                {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                                    className: 'trigger',
+                                    onClick: () => setCollapsed(!collapsed),
+                                })}
+                                <Breadcrumb items={breadcrumbItems} />
+                            </div>
+
+
                             <div className="flex items-center gap-2  ">
                                 <Button
                                     type="text"
