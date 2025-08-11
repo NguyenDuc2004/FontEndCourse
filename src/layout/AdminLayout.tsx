@@ -9,7 +9,6 @@ import {
     QqOutlined,
     ShoppingCartOutlined,
     TeamOutlined,
-
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons';
@@ -17,7 +16,6 @@ import { Avatar, Button, Dropdown, Layout, Menu, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import '../styles/AdminLayout.scss'; // Import your custom styles
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { menu, p, path } from 'framer-motion/client';
 // import { useLoading } from '../contexts/LoadingContext';
 
 const { Header, Sider, Content } = Layout;
