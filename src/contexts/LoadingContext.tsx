@@ -1,14 +1,14 @@
-// import React from "react";
+// import React, { createContext, useContext, useState } from 'react'
 
-// const LoadingContext = React.createContext(null)
+// const LoadingContext = createContext(null)
 
 // export const LoadingProvider = ({ children }) => {
-//   const [isLoading, setIsLoading] = React.useState(false);
+//   const [isLoading, setIsLoading] = useState(false)
 //   return (
 //     <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
 //       {children}
 //     </LoadingContext.Provider>
 //   )
 // }
-// export const useLoading = () => React.useContext(LoadingContext);
 
+// export const useLoading = () => useContext(LoadingContext)

@@ -12,7 +12,6 @@ function App() {
       {/* <LoadingProvider> */}
         <RouterProvider router={router} />
       {/* </LoadingProvider> */}
-
     </>
   )
 }

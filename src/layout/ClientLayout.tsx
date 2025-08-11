@@ -1,25 +1,13 @@
-import React from 'react'
+
 import { Avatar, Breadcrumb, Button, Dropdown, Layout, Menu, theme } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import '../styles/ClientLayout.scss';
 import '../styles/MainLayout.scss'; // Import your custom styles
-import logo from '../assets/imgaes/OIP.webp'
-import { motion } from "framer-motion";
-import robot from "../assets/imgaes/undraw_firmware_3fxd.svg";
 const { Header, Content, Footer } = Layout;
 import {
-    BarChartOutlined,
-    BellOutlined,
     KeyOutlined,
     LogoutOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    QqOutlined,
-    ShoppingCartOutlined,
-    TeamOutlined,
-
     UserOutlined,
-    VideoCameraOutlined,
 } from '@ant-design/icons';
 
 const ClientLayout = () => {
@@ -36,7 +24,7 @@ const ClientLayout = () => {
 
     const itemsNav = [
         { key: '1', label: 'Trang chủ', path: '', onClick: () => navigate('/') },
-        { key: '2', label: 'Bài viết', path: 'posts', },
+        { key: '2', label: 'Bài viết', path: 'posts', onClick: () => navigate('posts')},
         { key: '3', label: 'Khóa học', path: 'courses' },
         { key: '4', label: 'Thông tin', path: 'info' },
         { key: '5', label: 'Dịch vụ', path: 'services' },
@@ -70,7 +58,7 @@ const ClientLayout = () => {
     return (
         <Layout>
             <Header className="sticky top-0 z-50" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className="demo-logo" />
+                <div className="demo-logo" onClick={() =>navigate("/")} />
                 <Menu
                     theme="dark"
                     mode="horizontal"
@@ -123,7 +111,7 @@ const ClientLayout = () => {
             <Content >
                 <Breadcrumb
                     style={{margin: '0 16px'}}
-                    items={[{ title: 'Trang chủ',path: '' }]}
+                    items={[{ title: 'Trang chủ',path: '',onClick:()=>navigate('/') }]}
                 />
                 <div
                     style={{

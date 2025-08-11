@@ -86,6 +86,12 @@ const MainLayout = () => {
             label: 'Đổi mật khẩu',
             //   onClick: () => setOpenChangePassWord(true),
         },
+         {
+            key: 'store',
+            icon: <ShoppingCartOutlined />,
+            label: 'Cửa hàng',
+            onClick: () => navigate("/"),
+        },
         {
             type: 'divider' as const,
         },
